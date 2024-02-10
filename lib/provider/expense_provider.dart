@@ -5,37 +5,77 @@ class ExpenseProvider extends ChangeNotifier {
     {"expense": "", "amount": 0, "expenseType": ""}
   ];
 
+  List<String> categories = [
+    "Food",
+    "Snacks",
+    "Travel",
+    "Rent",
+    "Electronics",
+    "Others"
+  ];
+
   String defaultFilterCategory = "All";
+
+  Map editExpenseCategory = {};
+
+  String? editCategory;
 
   Map<String, List> expenseHistory = {
     "Food": [
       {
+        "id": 1,
         "expenseName": "golden corn lapinoz Pizza",
         "amount": 200,
         "category": "Food"
       },
-      {"expenseName": "non-veg full meals", "amount": 300, "category": "Food"},
-      {"expenseName": "supper", "amount": 200, "category": "Food"}
+      {
+        "id": 2,
+        "expenseName": "non-veg full meals",
+        "amount": 300,
+        "category": "Food"
+      },
+      {"id": 3, "expenseName": "supper", "amount": 200, "category": "Food"}
     ],
     "Snacks": [
-      {"expenseName": "juice", "amount": 200, "category": "Snacks"},
-      {"expenseName": "chicken grill", "amount": 400, "category": "Snacks"},
+      {"expenseName": "juice", "id": 12, "amount": 200, "category": "Snacks"},
+      {
+        "expenseName": "chicken grill",
+        "id": 43,
+        "amount": 400,
+        "category": "Snacks"
+      },
     ],
     "Travel": [
-      {"expenseName": "airport", "amount": 100, "category": "Travel"},
-      {"expenseName": "cab-office", "amount": 50, "category": "Travel"},
+      {"expenseName": "airport", "id": 8, "amount": 100, "category": "Travel"},
+      {
+        "expenseName": "cab-office",
+        "id": 9,
+        "amount": 50,
+        "category": "Travel"
+      },
     ],
     "Rent": [
-      {"expenseName": "room rent", "amount": 100, "category": "Rent"},
+      {"expenseName": "room rent", "id": 98, "amount": 100, "category": "Rent"},
     ],
     "Electronics": [
-      {"expenseName": "headset", "amount": 600, "category": "Electronics"},
-      {"expenseName": "charger", "amount": 500, "category": "Electronics"},
+      {
+        "expenseName": "headset",
+        "id": 776,
+        "amount": 600,
+        "category": "Electronics"
+      },
+      {
+        "expenseName": "charger",
+        "id": 456,
+        "amount": 500,
+        "category": "Electronics"
+      },
     ],
     "Others": [
       // {"expenseName": "dsa-book", "amount": 200}
     ],
   };
+
   void addExpenseField() {
     expenseData.add({"expense": "", "amount": 0, "expenseType": ""});
     notifyListeners();
@@ -61,5 +101,22 @@ class ExpenseProvider extends ChangeNotifier {
 
   void handleExpenses() {
     print(expenseData);
+  }
+
+  void updateExpense() {
+    print(editCategory);
+    List getExpenseList = expenseHistory[editCategory]!;
+    List updatedList = getExpenseList.where((expense) {
+      return expense["category"] == editCategory;
+    }).toList();
+    print(updatedList);
+    // print(editExpenseCategory);
+  }
+
+  void handleCategoryFilter() {}
+
+  void updateSelectedExpense(expense) {
+    editExpenseCategory = expense;
+    notifyListeners();
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/expense_tracker_app.dart';
 import 'package:flutter_app/locator.dart';
+import 'package:flutter_app/provider/account_provider.dart';
 import 'package:flutter_app/provider/analytics_provider.dart';
 import 'package:flutter_app/provider/auth_provider.dart';
 import 'package:flutter_app/provider/expense_provider.dart';
@@ -24,6 +25,8 @@ class ExpenseTracker extends StatelessWidget {
             create: (_) => serviceLocator<ExpenseProvider>()),
         ChangeNotifierProvider(
             create: (_) => serviceLocator<AnalyticsProvider>()),
+        ChangeNotifierProvider(
+            create: (_) => serviceLocator<AccountProvider>()),
       ],
       builder: (_, child) => const ExpenseTrackerApp(),
     );

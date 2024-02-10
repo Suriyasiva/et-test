@@ -1,3 +1,4 @@
+import 'package:flutter_app/provider/account_provider.dart';
 import 'package:flutter_app/provider/analytics_provider.dart';
 import 'package:flutter_app/provider/auth_provider.dart';
 import 'package:flutter_app/provider/expense_provider.dart';
@@ -19,4 +20,6 @@ Future<void> setupLocator() async {
       .registerLazySingleton<ExpenseProvider>(() => ExpenseProvider());
   serviceLocator
       .registerLazySingleton<AnalyticsProvider>(() => AnalyticsProvider());
+  serviceLocator
+      .registerLazySingleton<AccountProvider>(() => AccountProvider());
 }

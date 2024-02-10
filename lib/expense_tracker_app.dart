@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/pages/auth/passcode.dart';
+import 'package:flutter_app/pages/auth/signup.dart';
 import 'package:flutter_app/pages/config/app_config.dart';
-import 'package:flutter_app/pages/splash/splash.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ExpenseTrackerApp extends StatefulWidget {
@@ -31,7 +32,9 @@ class _ExpenseTrackerAppState extends State<ExpenseTrackerApp> {
           centerTitle: false,
         ),
       ),
-      home: const SplashPage(),
+      // home: const SplashPage(),
+      // home: const SignUp(),
+      home: const PassCodeLogin(),
     );
   }
 }

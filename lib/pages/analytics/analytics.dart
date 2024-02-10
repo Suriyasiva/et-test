@@ -5,6 +5,7 @@ import 'package:flutter_app/pages/constant/dimensions.dart';
 import 'package:flutter_app/provider/analytics_provider.dart';
 import 'package:flutter_app/widget/space.dart';
 import 'package:mrx_charts/mrx_charts.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
 
 class Analytics extends StatefulWidget {
   const Analytics({super.key});
@@ -33,8 +34,7 @@ class _AnalyticsState extends State<Analytics> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: Scaffold(
+    return Scaffold(
       backgroundColor: AppColors.secondryV1,
       body: SingleChildScrollView(
         child: Column(children: [
@@ -82,6 +82,7 @@ class _AnalyticsState extends State<Analytics> {
               ],
             ),
           ),
+          const VerticalSpace(size: AppDimensions.dp38),
           Row(
             children: [
               Padding(
@@ -91,18 +92,31 @@ class _AnalyticsState extends State<Analytics> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Total spending",
+                        "Expenses",
                         style: TextStyle(
                             color: AppColors.secondryV6,
+                            fontSize: AppDimensions.dp25,
                             fontWeight: FontWeight.bold),
                       ),
                       const VerticalSpace(size: AppDimensions.dp5),
-                      Text(
-                        "\$ 8008",
-                        style: TextStyle(
-                            color: AppColors.secondryV4,
-                            fontSize: AppDimensions.dp20,
-                            fontWeight: FontWeight.bold),
+                      RichText(
+                        text: TextSpan(
+                          style: DefaultTextStyle.of(context).style,
+                          children: <TextSpan>[
+                            TextSpan(
+                              text: '\$8080',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: AppColors.secondryV5,
+                                  fontSize: AppDimensions.dp30),
+                            ),
+                            TextSpan(
+                              text: '/week',
+                              style: TextStyle(
+                                  fontSize: 16, color: AppColors.secondryV5),
+                            ),
+                          ],
+                        ),
                       )
                     ],
                   ))
@@ -158,9 +172,10 @@ class _AnalyticsState extends State<Analytics> {
               ],
             ),
           ),
+          categoryWise()
         ]),
       ),
-    ));
+    );
   }
 
   List<ChartLayer> layers() {
@@ -282,5 +297,78 @@ class _AnalyticsState extends State<Analytics> {
         ),
       ),
     ];
+  }
+
+  Widget categoryWise() {
+    return SizedBox(
+      height: MediaQuery.of(context).size.height / 2, // Set height as needed
+      child: GridView.count(
+        primary: false,
+        padding: const EdgeInsets.all(20),
+        crossAxisSpacing: 5,
+        mainAxisSpacing: 5,
+        crossAxisCount: 2,
+        children: _analyticsProvider.details.entries.map((entry) {
+          double percentage =
+              double.parse(entry.value.replaceAll('%', '')) / 100;
+          return Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(AppDimensions.dp5),
+              boxShadow: [
+                BoxShadow(color: AppColors.secondryV2, spreadRadius: 1),
+              ],
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CircularPercentIndicator(
+                  radius: 60.0,
+                  lineWidth: 5.0,
+                  percent: percentage,
+                  center: Text(entry.value),
+                  progressColor: AppColors.secondryV5,
+                ),
+                const VerticalSpace(size: AppDimensions.dp15),
+                Row(
+                  children: [
+                    Text(
+                      entry.key.toUpperCase(),
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.secondryV6,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ],
+                )
+              ],
+            ),
+            // child: Column(
+            //   mainAxisAlignment: MainAxisAlignment.center,
+            //   children: [
+            // Text(
+            //   entry.key.toUpperCase(),
+            //   style: TextStyle(
+            //     fontWeight: FontWeight.bold,
+            //     color: AppColors.secondryV6,
+            //     fontSize: 16,
+            //   ),
+            // ),
+            //     const SizedBox(height: 8),
+            //     Text(
+            //       entry.value,
+            //       style: TextStyle(
+            //         fontWeight: FontWeight.bold,
+            //         fontSize: 20,
+            //         color: AppColors.secondryV5,
+            //       ),
+            //     ),
+            //   ],
+            // ),
+          );
+        }).toList(),
+      ),
+    );
   }
 }
